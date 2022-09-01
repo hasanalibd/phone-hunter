@@ -1,3 +1,4 @@
+// initial data load by phone api
 const  loadPhone = async(searchText) => {
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
     const res = await fetch(url);
@@ -9,6 +10,19 @@ const displayPhones = phones =>{
     console.log(phones)
     const phonesContainer = document.getElementById('phones-container');
     phonesContainer.textContent = '';
+    // display show only 20 phone
+    phones = phones.slice(0, 21);
+
+    // display no phones found
+    const noPhone = document.getElementById('no-phone-found');
+    if(phones.length === 0){
+        noPhone.classList.remove('d-none')
+    }
+    else{
+        noPhone.classList.add('d-none')
+    }
+
+    // display all phones
     phones.forEach(phone =>{
         const phoneDiv = document.createElement('div');
         phoneDiv.classList.add('col');
@@ -25,10 +39,12 @@ const displayPhones = phones =>{
     })
 };
 
+// search phone function
 document.getElementById('btn-search').addEventListener('click', function(){
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
-    loadPhone(searchText);
+    loadPhone(searchText); //dynamically data load by search
+    searchField.value = '';
 });
 
 
